@@ -4,14 +4,13 @@ import styles from "@/styles/Page.module.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Products() {
+export default function UserProduct() {
   const router = useRouter();
 
   return (
     <main className={`${styles.main} ${inter.className}`}>
       <h1>
-        User:{router.query.name}
-        {"'s"} - Product:{router.query.productId} Page
+        User:{router.query.name} - Product:{router.query.productId} Page
       </h1>
     </main>
   );

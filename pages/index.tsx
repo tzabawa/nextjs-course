@@ -1,10 +1,41 @@
 import Head from "next/head";
+import Link from "next/link";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Page.module.css";
+import { Route } from "./_types";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const routes: Route[] = [
+    {
+      displayName: "Products",
+      subRoutes: [
+        {
+          displayName: "Product",
+          name: "productId",
+          value: "12345",
+        },
+      ],
+      value: "products",
+    },
+    {
+      displayName: "Users",
+      subRoutes: [
+        {
+          displayName: "User",
+          name: "name",
+          value: "jordan",
+        },
+        {
+          displayName: "ProductId",
+          name: "productId",
+          value: "12345",
+        },
+      ],
+      value: "users",
+    },
+  ];
   return (
     <>
       <Head>
@@ -15,6 +46,29 @@ export default function Home() {
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         <h1>Hello World</h1>
+        <ul>
+          {routes.map((route) => (
+            <li key={route.displayName}>
+              {/* <Link href={`/${subRoute.route}`}>{subRoute.name}</Link> */}
+              <Link
+                href={{
+                  pathname: `/${route.value}${(route.subRoutes || [])
+                    .map((subRoute) => `/[${subRoute.name}]`)
+                    .join("")}`,
+                  query: (route.subRoutes || []).reduce(
+                    (agg: { [key: string]: string }, subRoute) => {
+                      agg[subRoute.name as string] = subRoute.value;
+                      return agg;
+                    },
+                    {}
+                  ),
+                }}
+              >
+                {route.displayName}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </main>
     </>
   );
